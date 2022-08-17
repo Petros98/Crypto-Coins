@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Crypto Coins</string>
+    <string name="coin_list">Coin List</string>
+    <string name="currency_usd">USD</string>
+    <string name="coin">Coin</string>
+    <string name="period_24_hour">24h</string>
+    <string name="price">Price</string>
+</resources>

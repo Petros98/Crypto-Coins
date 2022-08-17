@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/middle_guideline"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_percent="0.5"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/image"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@+id/currencySymbol"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/name"
+        tools:src="@mipmap/ic_launcher"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/name"
+        style="@style/TextBlack"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        android:ellipsize="marquee"
+        android:maxLines="1"
+        app:layout_constraintEnd_toStartOf="@+id/middle_guideline"
+        app:layout_constraintStart_toEndOf="@id/image"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Bitcoin"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/rank"
+        style="@style/TextGray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorSecondaryVariant"
+        android:padding="@dimen/padding_extra_small"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/name"
+        app:layout_constraintTop_toBottomOf="@id/name"
+        tools:text="1" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/currencySymbol"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="marquee"
+        tools:text="BTC"
+        android:layout_marginHorizontal="@dimen/margin_small"
+        app:layout_constraintTop_toTopOf="@id/rank"
+        app:layout_constraintBottom_toBottomOf="@id/rank"
+        app:layout_constraintStart_toEndOf="@id/rank"
+        app:layout_constraintEnd_toEndOf="@id/middle_guideline"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/deltaPercent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:paddingStart="@dimen/padding_extra_small"
+        android:paddingEnd="@dimen/padding_small"
+        tools:background="@color/green_alpha"
+        tools:drawableStart="@drawable/ic_arrow_up"
+        android:gravity="center"
+        tools:textColor="@color/green"
+        tools:text="12.4%"
+        app:layout_constraintStart_toEndOf="@id/middle_guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="textEnd"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:layout_marginStart="@dimen/padding_extra_small"
+        android:maxLines="1"
+        android:ellipsize="marquee"
+        style="@style/TextBlack"
+        tools:text="$43,777.00"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/deltaPercent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
