@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import task.coinstats.cryptocoins.data.models.local.Coin
+import task.coinstats.cryptocoins.data.models.entities.Coin
 import task.coinstats.cryptocoins.data.repositories.CoinsRepository
 import task.coinstats.cryptocoins.utils.Result
-import task.coinstats.cryptocoins.utils.toCoinModel
+import task.coinstats.cryptocoins.utils.mappers.toCoinModel
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,7 +21,7 @@ class MainViewModel @Inject constructor(
     private val repository: CoinsRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<UiState>(UiState.UNINITIALIZED)
+    private val _uiState = MutableStateFlow<UiState>(UiState.Uninitialized)
     val uiState: StateFlow<UiState> get() = _uiState
 
     private var _coins = listOf<Coin>()
@@ -49,7 +49,7 @@ class MainViewModel @Inject constructor(
 
     private fun getInitialData() {
         viewModelScope.launch(Dispatchers.IO) {
-            _uiState.update { UiState.LOADING }
+            _uiState.update { UiState.Loading }
             when (val result = repository.getCoins()) {
                 is Result.Error<*> -> {
                     result.errors.errorMessage?.let { it1 ->

@@ -1,7 +1,8 @@
-package task.coinstats.cryptocoins.utils
+package task.coinstats.cryptocoins.utils.mappers
 
-import task.coinstats.cryptocoins.data.models.local.Coin
+import task.coinstats.cryptocoins.data.models.entities.Coin
 import task.coinstats.cryptocoins.data.models.remote.CoinResponse
+import task.coinstats.cryptocoins.utils.Constants
 
 fun CoinResponse.toCoinModel() =
     Coin(

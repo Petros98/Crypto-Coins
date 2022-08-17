@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import task.coinstats.cryptocoins.R
-import task.coinstats.cryptocoins.data.models.local.Coin
+import task.coinstats.cryptocoins.data.models.entities.Coin
 import task.coinstats.cryptocoins.databinding.ItemCoinBinding
 import task.coinstats.cryptocoins.utils.toFormattedAmountWithCurrency
 import task.coinstats.cryptocoins.utils.toFormattedDeltaPercent
@@ -26,15 +26,18 @@ class CoinsAdapter : ListAdapter<Coin, CoinsAdapter.CoinViewHolder>(DIFF_UTIL) {
                 price.text = coin.priceInUSD.toFormattedAmountWithCurrency(coin.valueCurrency)
                 currencySymbol.text = coin.symbol
 
-                if (coin.delta24 < 0) {
-                    deltaPercent.setTextColor(ContextCompat.getColor(binding.root.context, R.color.red))
-                    deltaPercent.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.red_alpha))
-                    deltaPercent.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_arrow_down, 0,0,0)
-                } else {
-                    deltaPercent.setTextColor(ContextCompat.getColor(binding.root.context, R.color.green))
-                    deltaPercent.setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.green_alpha))
-                    deltaPercent.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_arrow_up, 0,0,0)
+                deltaPercent.apply {
+                    if (coin.delta24 < 0) {
+                        setTextColor(ContextCompat.getColor(binding.root.context, R.color.red))
+                        setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.red_alpha))
+                        setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_arrow_down, 0,0,0)
+                    } else {
+                        setTextColor(ContextCompat.getColor(binding.root.context, R.color.green))
+                        setBackgroundColor(ContextCompat.getColor(binding.root.context, R.color.green_alpha))
+                        setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_arrow_up, 0,0,0)
+                    }
                 }
+
             }
         }
     }

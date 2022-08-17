@@ -43,17 +43,17 @@ class MainActivity : AppCompatActivity() {
                 is UiState.Error -> {
                     Toast.makeText(this, uiState.message, Toast.LENGTH_SHORT).show()
                 }
-                UiState.LOADING -> {
+                UiState.Loading -> {
                     binding.swipeRefreshLayout.isRefreshing = true
                 }
-                UiState.UNINITIALIZED -> {}
+                UiState.Uninitialized -> {}
                 is UiState.UpdatedData -> {
                     uiState.indexes.forEach {
                         coinsAdapter.notifyItemChanged(it)
                     }
                 }
             }
-            if (uiState !is UiState.LOADING) {
+            if (uiState !is UiState.Loading) {
                 binding.swipeRefreshLayout.isRefreshing = false
             }
         }.launchIn(lifecycleScope)

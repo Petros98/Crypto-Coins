@@ -1,4 +1,4 @@
-package task.coinstats.cryptocoins.data.models.local
+package task.coinstats.cryptocoins.data.models.entities
 
 data class Coin(
     val id: String,

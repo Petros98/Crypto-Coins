@@ -9,10 +9,10 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import task.coinstats.cryptocoins.BuildConfig
+import task.coinstats.cryptocoins.data.api.ApiConstants
 import task.coinstats.cryptocoins.data.api.CoinsApiService
 import task.coinstats.cryptocoins.data.repositories.CoinsRepository
 import task.coinstats.cryptocoins.data.repositories.CoinsRepositoryImpl
-import task.coinstats.cryptocoins.utils.Constants.BASE_URL
 import javax.inject.Singleton
 
 @Module
@@ -37,7 +37,7 @@ object AppModule {
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .addConverterFactory(MoshiConverterFactory.create())
-        .baseUrl(BASE_URL)
+        .baseUrl(ApiConstants.BASE_URL)
         .client(okHttpClient)
         .build()
 

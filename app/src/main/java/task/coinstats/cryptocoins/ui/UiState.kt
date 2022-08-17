@@ -1,11 +1,11 @@
 package task.coinstats.cryptocoins.ui
 
-import task.coinstats.cryptocoins.data.models.local.Coin
+import task.coinstats.cryptocoins.data.models.entities.Coin
 
 sealed class UiState {
-    object UNINITIALIZED: UiState()
+    object Uninitialized: UiState()
 
-    object LOADING: UiState()
+    object Loading: UiState()
 
     data class Error(val message: String): UiState()
 

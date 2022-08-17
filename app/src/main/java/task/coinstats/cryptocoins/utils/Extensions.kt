@@ -14,6 +14,6 @@ fun Double?.toFormattedAmountWithCurrency(currency: String? = null): String {
 fun Double?.toFormattedDeltaPercent(): String {
     val df = DecimalFormat("#,##0.00")
     df.decimalFormatSymbols = DecimalFormatSymbols(Locale.US)
-    val formattedAmount = if (this == null) "--" else df.format(this)
-    return "$formattedAmount %"
+    val deltaPercent = if (this == null) "--" else df.format(this)
+    return "$deltaPercent %"
 }
