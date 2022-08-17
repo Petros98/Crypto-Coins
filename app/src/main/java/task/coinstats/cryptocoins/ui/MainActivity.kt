@@ -31,6 +31,10 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.getData()
 
+        listenDataChanges()
+    }
+
+    private fun listenDataChanges() {
         viewModel.uiState.onEach { uiState ->
             when (uiState) {
                 is UiState.Coins -> {

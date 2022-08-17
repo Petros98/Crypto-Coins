@@ -11,13 +11,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import task.coinstats.cryptocoins.data.models.local.Coin
-import task.coinstats.cryptocoins.domain.CoinsInteractor
+import task.coinstats.cryptocoins.data.repositories.CoinsRepository
 import task.coinstats.cryptocoins.utils.Result
+import task.coinstats.cryptocoins.utils.toCoinModel
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val interactor: CoinsInteractor
+    private val repository: CoinsRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UiState>(UiState.UNINITIALIZED)
@@ -49,15 +50,15 @@ class MainViewModel @Inject constructor(
     private fun getInitialData() {
         viewModelScope.launch(Dispatchers.IO) {
             _uiState.update { UiState.LOADING }
-            when (val result = interactor.getCoins()) {
+            when (val result = repository.getCoins()) {
                 is Result.Error<*> -> {
                     result.errors.errorMessage?.let { it1 ->
                         _uiState.update { UiState.Error(it1) }
                     }
                 }
                 is Result.Success -> {
-                    if (!result.data.isNullOrEmpty()) {
-                        _coins = result.data
+                    if (result.data?.coins != null && result.data.coins.isNotEmpty()) {
+                        _coins = result.data.coins.mapNotNull { it?.toCoinModel() }
                         _uiState.update { UiState.Coins(_coins) }
                         startUpdates()
                     }
@@ -70,26 +71,40 @@ class MainViewModel @Inject constructor(
         updateJob?.cancel()
         updateJob = viewModelScope.launch(Dispatchers.IO) {
             delay(updatePeriod)
-            when (val result = interactor.getUpdatedCoins()) {
+            when (val result = repository.getUpdatedCoins()) {
                 is Result.Error<*> -> {
-                    result.errors.errorMessage?.let { it1 ->
-                        _uiState.update { UiState.Error(it1) }
+                    result.errors.errorMessage?.let { error ->
+                        _uiState.update { UiState.Error(error) }
                     }
                 }
                 is Result.Success -> {
-                    if (!result.data.isNullOrEmpty()) {
-                        val updatedIndexes = mutableListOf<Int>()
-                        result.data.forEach { updatedCoin ->
-                            val index = _coins.indexOfFirst { it.id == updatedCoin.id }
-                            updateCoinPrice(index, updatedCoin)
-                            updatedIndexes.add(index)
-                        }
+                    if (result.data?.coins != null && result.data.coins.isNotEmpty()) {
+                        val updatedIndexes = getUpdatedIndexes(result.data.coins)
                         _uiState.update { UiState.UpdatedData(updatedIndexes) }
                     }
                 }
             }
             startUpdates()
         }
+    }
+
+    private fun getUpdatedIndexes(coins: List<List<Any>>): List<Int> {
+        val updatedCoins = mutableListOf<Coin>()
+        coins.forEach {
+            updatedCoins.add(
+                Coin(
+                    id = it[0].toString(),
+                    priceInUSD = it[2] as? Double
+                )
+            )
+        }
+        val updatedIndexes = mutableListOf<Int>()
+        updatedCoins.forEach { updatedCoin ->
+            val index = _coins.indexOfFirst { it.id == updatedCoin.id }
+            updateCoinPrice(index, updatedCoin)
+            updatedIndexes.add(index)
+        }
+        return updatedIndexes
     }
 
     private fun updateCoinPrice(
