@@ -12,8 +12,6 @@ import task.coinstats.cryptocoins.BuildConfig
 import task.coinstats.cryptocoins.data.api.CoinsApiService
 import task.coinstats.cryptocoins.data.repositories.CoinsRepository
 import task.coinstats.cryptocoins.data.repositories.CoinsRepositoryImpl
-import task.coinstats.cryptocoins.domain.CoinsInteractor
-import task.coinstats.cryptocoins.domain.CoinsUseCase
 import task.coinstats.cryptocoins.utils.Constants.BASE_URL
 import javax.inject.Singleton
 
@@ -52,8 +50,4 @@ object AppModule {
     @Provides
     fun provideCoinsRepository(apiService: CoinsApiService): CoinsRepository =
         CoinsRepositoryImpl(apiService)
-
-    @Singleton
-    @Provides
-    fun provideCoinsUseCase(repository: CoinsRepository): CoinsInteractor = CoinsUseCase(repository)
 }
